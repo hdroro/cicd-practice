@@ -6,6 +6,7 @@
     "test": "npx jest authController.test.js",
     "dev": "nodemon ./src/index.js",
     "build": "babel src --out-dir dist",
+    "postbuild": "cp src/config/config.json dist/config/config.json",
     "migrate": "cd src && npx sequelize-cli db:migrate",
     "seed": "cd src && npx sequelize-cli db:seed"
   },
