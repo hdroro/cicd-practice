@@ -41,7 +41,7 @@ describe('Google Auth API', () => {
 
     it('should return 200 on successful callback with user data', async () => {
         passport.authenticate.mockImplementation((strategy, options) => (req, res, next) => {
-            req.user = { id: 1, email: 'hongdiem0607@gmail.com' };
+            req.user = { id: 1, email: 'hongdiem060703@gmail.com' };
             next();
         });
 
