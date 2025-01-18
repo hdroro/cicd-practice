@@ -1,4 +1,4 @@
-name: CI/CD with Render and DB
+name: CI/CD with Render and DB (Docker)
 
 on:
   push:
@@ -13,23 +13,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        fetch-depth: 0 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
-    - name: Install dependencies
-      working-directory: cicd-practice
-      run: npm install
-    - name: Build application
-      working-directory: cicd-practice
-      run: npm run build
-    - name: Post-build tasks
-      working-directory: cicd-practice
-      run: npm run postbuild
-    - name: Run tests
-      working-directory: cicd-practice
-      run: npm run test
+        fetch-depth: 0
+    - name: Build Docker Image
+      run: |
+        docker build -t cicd-practice:latest ./cicd-practice
+    - name: Run Tests Inside Docker
+      run: |
+        docker run --rm cicd-practice:latest npm run test
 
   deploy:
     needs: build
@@ -37,24 +27,30 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
-    - name: Deploy to Render
+    - name: Build Docker Image
+      run: |
+        docker build -t cicd-practice:latest ./cicd-practice
+    - name: Run Migrations and Seeders
       env:
         REDIS_URL: ${{ secrets.REDIS_URL }}
-        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
         DB_HOST: ${{ secrets.DB_HOST }}
         DB_USER: ${{ secrets.DB_USER }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_NAME: ${{ secrets.DB_NAME }}
         DB_PORT: ${{ secrets.DB_PORT }}
       run: |
-        cd cicd-practice # Di chuyển vào thư mục đúng
-        npm run migrate  # Chạy migration
-        npm run seed     # Chạy seeder
-        # Triển khai lên Render
+        docker run --rm \
+          -e REDIS_URL=$REDIS_URL \
+          -e DB_HOST=$DB_HOST \
+          -e DB_USER=$DB_USER \
+          -e DB_PASSWORD=$DB_PASSWORD \
+          -e DB_NAME=$DB_NAME \
+          -e DB_PORT=$DB_PORT \
+          cicd-practice:latest npm run migrate && npm run seed
+    - name: Deploy to Render
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      run: |
         curl -X POST \
           -H "Authorization: Bearer $RENDER_API_KEY" \
           -H "Content-Type: application/json" \
