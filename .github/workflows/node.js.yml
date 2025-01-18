@@ -3,6 +3,8 @@ name: CI/CD with Render and DB
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -17,7 +19,7 @@ jobs:
     - run: npm ci
     - run: npm run build
     - run: npm run postbuild
-    - run: npm test
+    - run: npm run test
 
   deploy:
     needs: build
