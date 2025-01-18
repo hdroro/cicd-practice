@@ -2,6 +2,9 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
+console.log('process.env.DB_USER', process.env.DB_USER);
+
+
 const config = {
   development: {
     username: process.env.DB_USER,
