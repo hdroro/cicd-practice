@@ -86,7 +86,6 @@ jobs:
           -e DB_NAME=$DB_NAME \
           -e DB_PORT=$DB_PORT \
           -e DB_DIALECT=$DB_DIALECT \
-          cicd-practice:latest node src/config/config.js  # Chạy script tạo config.json
           cicd-practice:latest npm run migrate && npm run seed
     - name: Deploy to Render
       env:
