@@ -16,6 +16,7 @@ jobs:
         node-version: 22
     - run: npm ci
     - run: npm run build
+    - run: npm run postbuild
     - run: npm test
 
   deploy:
