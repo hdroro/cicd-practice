@@ -17,25 +17,6 @@ jobs:
     - name: Build Docker Image
       run: |
         docker build -t cicd-practice:latest .
-    - name: Generate config.json from environment variables
-      env:
-        REDIS_URL: ${{ secrets.REDIS_URL }}
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_PORT: ${{ secrets.DB_PORT }}
-        DB_DIALECT: ${{ secrets.DB_DIALECT }}
-      run: |
-        docker run --rm \
-          -e REDIS_URL=$REDIS_URL \
-          -e DB_HOST=$DB_HOST \
-          -e DB_USER=$DB_USER \
-          -e DB_PASSWORD=$DB_PASSWORD \
-          -e DB_NAME=$DB_NAME \
-          -e DB_PORT=$DB_PORT \
-          -e DB_DIALECT=$DB_DIALECT \
-          cicd-practice:latest node src/config/config.js  # Chạy script tạo config.json
     - name: Run Tests Inside Docker
       run: |
         docker run --rm cicd-practice:latest npm run test
@@ -49,25 +30,6 @@ jobs:
     - name: Build Docker Image
       run: |
         docker build -t cicd-practice:latest .
-    - name: Generate config.json from environment variables
-      env:
-        REDIS_URL: ${{ secrets.REDIS_URL }}
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_PORT: ${{ secrets.DB_PORT }}
-        DB_DIALECT: ${{ secrets.DB_DIALECT }}
-      run: |
-        docker run --rm \
-          -e REDIS_URL=$REDIS_URL \
-          -e DB_HOST=$DB_HOST \
-          -e DB_USER=$DB_USER \
-          -e DB_PASSWORD=$DB_PASSWORD \
-          -e DB_NAME=$DB_NAME \
-          -e DB_PORT=$DB_PORT \
-          -e DB_DIALECT=$DB_DIALECT \
-          cicd-practice:latest node src/config/config.js  # Chạy script tạo config.json
     - name: Run Migrations and Seeders
       env:
         REDIS_URL: ${{ secrets.REDIS_URL }}
