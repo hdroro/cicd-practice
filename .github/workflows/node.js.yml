@@ -48,7 +48,7 @@ jobs:
           -e DB_NAME=$DB_NAME \
           -e DB_PORT=$DB_PORT \
           -e DB_DIALECT=$DB_DIALECT \
-          cicd-practice:latest npm run migrate && npm run seed
+          cicd-practice:latest npm run migrate
     - name: Deploy to Render
       env:
         RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
