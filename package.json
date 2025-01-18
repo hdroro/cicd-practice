@@ -8,7 +8,7 @@
     "build": "babel src --out-dir dist",
     "postbuild": "cp src/config/config.json dist/config/config.json",
     "migrate": "cross-env NODE_ENV=development npx sequelize-cli db:migrate --config src/config/config.js --migrations-path src/migrations",
-    "seed": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all --config src/config/config.js --seeders-path src/seeders"
+    "seed": "npx sequelize-cli db:seed:all --config src/config/config.js --seeders-path src/seeders"
   },
   "type": "commonjs",
   "keywords": [],
