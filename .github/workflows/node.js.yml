@@ -37,9 +37,9 @@ jobs:
         DB_PORT: ${{ secrets.DB_PORT }}
       run: |
         # Chạy migration
-        cd src && npm run migrate
+        npm run migrate
         # Chạy seeder
-        cd src && npm run seed
+        npm run seed
         # Triển khai lên Render
         curl -X POST \
           -H "Authorization: Bearer $RENDER_API_KEY" \
