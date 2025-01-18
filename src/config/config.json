@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "${DB_USER}",
-    "password": "${DB_PASSWORD}",
-    "database": "${DB_NAME}",
-    "host": "${DB_HOST}",
-    "dialect": "${DB_DIALECT}",
-    "port": "${DB_PORT}"
+    "username": "dev",
+    "password": "localdev",
+    "database": "sti_orm",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": "5432"
   }
 }
