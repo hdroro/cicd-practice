@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const ApiError = require('../../../odm/src/utils/ApiError');
+const ApiError = require('../utils/ApiError');
 const httpStatus = require('http-status').status;
 require('dotenv').config();
 
