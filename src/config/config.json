@@ -1,24 +1,10 @@
 {
   "development": {
-    "username": "dev",
-    "password": "localdev",
-    "database": "sti_orm",
-    "host": "localhost",
-    "dialect": "postgres",
-    "port": "5432"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "${DB_USER}",
+    "password": "${DB_PASSWORD}",
+    "database": "${DB_NAME}",
+    "host": "${DB_HOST}",
+    "dialect": "${DB_DIALECT}",
+    "port": "${DB_PORT}"
   }
 }

@@ -30,6 +30,17 @@ jobs:
     - name: Build Docker Image
       run: |
         docker build -t cicd-practice:latest .
+    - name: Generate config.json from environment variables
+      env:
+        REDIS_URL: ${{ secrets.REDIS_URL }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_DIALECT: ${{ secrets.DB_DIALECT }}
+      run: |
+        node src/config/config.js  # Chạy script để tạo config.json
     - name: Run Migrations and Seeders
       env:
         REDIS_URL: ${{ secrets.REDIS_URL }}
