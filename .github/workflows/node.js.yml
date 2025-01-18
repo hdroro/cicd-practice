@@ -79,7 +79,6 @@ jobs:
         DB_DIALECT: ${{ secrets.DB_DIALECT }}
       run: |
         docker run --rm \
-          -v $(pwd)/config/config.json:/app/config/config.json \
           -e REDIS_URL=$REDIS_URL \
           -e DB_HOST=$DB_HOST \
           -e DB_USER=$DB_USER \
@@ -87,6 +86,7 @@ jobs:
           -e DB_NAME=$DB_NAME \
           -e DB_PORT=$DB_PORT \
           -e DB_DIALECT=$DB_DIALECT \
+          cicd-practice:latest node src/config/config.js  # Chạy script tạo config.json
           cicd-practice:latest npm run migrate && npm run seed
     - name: Deploy to Render
       env:
