@@ -40,7 +40,15 @@ jobs:
         DB_PORT: ${{ secrets.DB_PORT }}
         DB_DIALECT: ${{ secrets.DB_DIALECT }}
       run: |
-        node src/config/config.js  # Chạy script để tạo config.json
+        docker run --rm \
+          -e REDIS_URL=$REDIS_URL \
+          -e DB_HOST=$DB_HOST \
+          -e DB_USER=$DB_USER \
+          -e DB_PASSWORD=$DB_PASSWORD \
+          -e DB_NAME=$DB_NAME \
+          -e DB_PORT=$DB_PORT \
+          -e DB_DIALECT=$DB_DIALECT \
+          cicd-practice:latest node src/config/config.js  # Chạy script tạo config.json
     - name: Run Migrations and Seeders
       env:
         REDIS_URL: ${{ secrets.REDIS_URL }}
@@ -57,6 +65,7 @@ jobs:
           -e DB_PASSWORD=$DB_PASSWORD \
           -e DB_NAME=$DB_NAME \
           -e DB_PORT=$DB_PORT \
+          -e DB_DIALECT=$DB_DIALECT \
           cicd-practice:latest npm run migrate && npm run seed
     - name: Deploy to Render
       env:
