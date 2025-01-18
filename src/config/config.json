@@ -1,11 +1,11 @@
 {
   "development": {
-    "username": "root",
+    "username": "dev",
     "password": "localdev",
     "database": "sti_orm",
     "host": "localhost",
-    "dialect": "mysql",
-    "port": "3306"
+    "dialect": "postgres",
+    "port": "5432"
   },
   "test": {
     "username": "root",
