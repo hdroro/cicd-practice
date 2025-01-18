@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 22
-    - run: npm ci
+    - run: npm install
     - run: npm run build
     - run: npm run postbuild
     - run: npm run test
@@ -37,9 +37,9 @@ jobs:
         DB_PORT: ${{ secrets.DB_PORT }}
       run: |
         # Chạy migration
-        npm run migrate
+        cd src && npm run migrate
         # Chạy seeder
-        npm run seed
+        cd src && npm run seed
         # Triển khai lên Render
         curl -X POST \
           -H "Authorization: Bearer $RENDER_API_KEY" \
