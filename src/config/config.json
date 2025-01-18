@@ -5,6 +5,6 @@
     "database": "${DB_NAME}",
     "host": "${DB_HOST}",
     "dialect": "postgres",
-    "port": "${DB_PORT}"
+    "port": 5432
   }
 }
