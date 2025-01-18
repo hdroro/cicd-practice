@@ -3,7 +3,7 @@ const db = require("../models/index.js");
 const ApiError = require('../utils/ApiError.js');
 const { redisClient } = require('../config/redis.js');
 
-const REDIS_EXPIRATION_TIME = 3600;
+const REDIS_EXPIRATION_TIME = 3500;
 
 const createNewCategoryService = async (payload) => {
     const category = await db.category.findOne({
