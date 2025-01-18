@@ -79,6 +79,7 @@ jobs:
         DB_DIALECT: ${{ secrets.DB_DIALECT }}
       run: |
         docker run --rm \
+          -v $(pwd)/config/config.json:/app/config/config.json \
           -e REDIS_URL=$REDIS_URL \
           -e DB_HOST=$DB_HOST \
           -e DB_USER=$DB_USER \
