@@ -18,16 +18,29 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 22
-    - run: npm install
-    - run: npm run build
-    - run: npm run postbuild
-    - run: npm run test
+    - name: Install dependencies
+      working-directory: cicd-practice
+      run: npm install
+    - name: Build application
+      working-directory: cicd-practice
+      run: npm run build
+    - name: Post-build tasks
+      working-directory: cicd-practice
+      run: npm run postbuild
+    - name: Run tests
+      working-directory: cicd-practice
+      run: npm run test
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
     - name: Deploy to Render
       env:
         REDIS_URL: ${{ secrets.REDIS_URL }}
@@ -38,10 +51,9 @@ jobs:
         DB_NAME: ${{ secrets.DB_NAME }}
         DB_PORT: ${{ secrets.DB_PORT }}
       run: |
-        # Chạy migration
-        npm run migrate
-        # Chạy seeder
-        npm run seed
+        cd cicd-practice # Di chuyển vào thư mục đúng
+        npm run migrate  # Chạy migration
+        npm run seed     # Chạy seeder
         # Triển khai lên Render
         curl -X POST \
           -H "Authorization: Bearer $RENDER_API_KEY" \
