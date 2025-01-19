@@ -55,8 +55,8 @@ jobs:
         RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
 
       run: |
-        curl -X POST \
-          -H "Authorization: Bearer $RENDER_API_KEY" \
-          -H "Content-Type: application/json" \
-          -d '{"clearCache":true}' \
-          https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys
+        curl -v -X POST \
+        -H "Authorization: Bearer $RENDER_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d '{"clearCache":true}' \
+        https://api.render.com/deploy/$RENDER_SERVICE_ID?key=5q2olYMfhAw
