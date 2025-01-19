@@ -2,13 +2,9 @@ name: CI/CD with Render and DB (Docker)
 
 on:
   push:
-    branches: 
-      - "main"
+    branches: ["main"]
   pull_request:
-    branches:
-      - "main"
-    types:
-      - closed
+    branches: ["main"]
 
 jobs:
   build:
