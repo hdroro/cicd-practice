@@ -32,27 +32,18 @@ jobs:
       run: |
         docker run --rm cicd-practice:latest npm run test
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-    - name: Log in to DockerHub
-      env:
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-    - name: Build Docker Image
-      run: |
-        docker build -t cicd-practice:latest .
     - name: Push Docker Image to DockerHub
       if: success()
       run: |
         docker tag cicd-practice:latest ${{ secrets.DOCKER_USER }}/cicd-practice:latest
         docker push ${{ secrets.DOCKER_USER }}/cicd-practice:latest
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
     - name: Run Migrations and Seeders
       env:
         REDIS_URL: ${{ secrets.REDIS_URL }}
