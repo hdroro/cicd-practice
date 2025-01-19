@@ -5,7 +5,7 @@ const { redisClient } = require('../config/redis.js');
 
 const REDIS_EXPIRATION_TIME = 3600;
 
-const getProductsService = async () => {
+const getAllProducts = async () => {
     const products = await db.product.findAll({
         include: {
             model: db.category,
@@ -22,6 +22,17 @@ const getProductsService = async () => {
             category: undefined
         }
     });
+
+    return plainProducts;
+};
+
+const setProductsToRedis = async () => {
+    const plainProducts = await getAllProducts();
+    redisClient.setEx('products', REDIS_EXPIRATION_TIME, JSON.stringify(plainProducts));
+};
+
+const getProductsService = async () => {
+    const plainProducts = await getAllProducts();
     redisClient.setEx('products', REDIS_EXPIRATION_TIME, JSON.stringify(plainProducts));
 
     return plainProducts
@@ -66,6 +77,8 @@ const createNewProductService = async (payload) => {
 
     redisClient.set(`product:${newProduct.id}`, JSON.stringify(newProduct));
 
+    await setProductsToRedis();
+
     return newProduct;
 };
 
@@ -104,6 +117,8 @@ const editProductService = async (id, productBody) => {
 
     redisClient.set(`category:${id}`, JSON.stringify(currentProduct));
 
+    await setProductsToRedis();
+
     return currentProduct;
 };
 
@@ -113,6 +128,8 @@ const deleteProductService = async (id) => {
     await product.destroy();
 
     redisClient.del(`product:${id}`);
+
+    await setProductsToRedis();
 };
 
 

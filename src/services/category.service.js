@@ -5,6 +5,11 @@ const { redisClient } = require('../config/redis.js');
 
 const REDIS_EXPIRATION_TIME = 3500;
 
+const setCategoriesToRedis = async () => {
+    const categories = await db.category.findAll();
+    redisClient.set('categories', REDIS_EXPIRATION_TIME, JSON.stringify(categories));
+};
+
 const createNewCategoryService = async (payload) => {
     const category = await db.category.findOne({
         where: { name: payload.name }
@@ -12,8 +17,10 @@ const createNewCategoryService = async (payload) => {
     if (!!category) throw new ApiError(httpStatus.BAD_REQUEST, "This category name already taken");
     const newCategory = await db.category.create(payload);
 
-    redisClient.set(`category:${newCategory.id}`, JSON.stringify(newCategory));
-    
+    redisClient.set(`category:${newCategory.id}`, REDIS_EXPIRATION_TIME, JSON.stringify(newCategory));
+
+    await setCategoriesToRedis();
+
     return newCategory;
 };
 
@@ -29,12 +36,12 @@ const deleteCategoryService = async (categoryId) => {
     await category.destroy();
 
     redisClient.del(`category:${categoryId}`);
-}
+
+    await setCategoriesToRedis();
+};
 
 const getAllCategoriesService = async () => {
-    const categories = await db.category.findAll();
-
-    redisClient.setEx('categories', REDIS_EXPIRATION_TIME, JSON.stringify(categories));
+    await setCategoriesToRedis();
     return categories;
 };
 
@@ -65,7 +72,9 @@ const editCategoryService = async (categoryId, { name, description }) => {
         description: description?.trim() ?? currentCategory.description,
     });
 
-    redisClient.set(`category:${categoryId}`, JSON.stringify(currentCategory));
+    redisClient.set(`category:${categoryId}`, REDIS_EXPIRATION_TIME, JSON.stringify(currentCategory));
+
+    await setCategoriesToRedis();
 
     return currentCategory;
 };
@@ -75,7 +84,9 @@ const getCategoryDetailService = async (categoryId) => {
     if (!category) throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
 
     redisClient.setEx(`category:${categoryId}`, REDIS_EXPIRATION_TIME, JSON.stringify(category));
-    
+
+    await setCategoriesToRedis();
+
     return category;
 };
 
