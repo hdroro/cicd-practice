@@ -41,7 +41,9 @@ const deleteCategoryService = async (categoryId) => {
 };
 
 const getAllCategoriesService = async () => {
-    await setCategoriesToRedis();
+    const categories = await db.category.findAll();
+    redisClient.set('categories', REDIS_EXPIRATION_TIME, JSON.stringify(categories));
+
     return categories;
 };
 
