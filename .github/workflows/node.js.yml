@@ -44,6 +44,10 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
+    - name: Check if Docker Image Exists on DockerHub
+      run: |
+        docker pull ${{ secrets.DOCKER_USER }}/cicd-practice:latest || exit 1
+        
     - name: Run Migrations and Seeders
       env:
         REDIS_URL: ${{ secrets.REDIS_URL }}
@@ -73,4 +77,4 @@ jobs:
         -H "Authorization: Bearer $RENDER_API_KEY" \
         -H "Content-Type: application/json" \
         -d '{"clearCache":true}' \
-        https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys
+        https://api.render.com/deploy/$RENDER_SERVICE_ID?key=pPQURHDIirc
