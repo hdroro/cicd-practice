@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/api/v1", routes);
+app.use("/api/v2", routes);
 app.use(errorHandler);
 
 // app.use(passport.initialize());
