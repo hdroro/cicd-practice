@@ -2,13 +2,14 @@ name: CI/CD with Render and DB (Docker)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
     - name: Checkout code
@@ -40,6 +41,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true  # Chỉ chạy khi PR được merged
 
     steps:
     - name: Run Migrations and Seeders
