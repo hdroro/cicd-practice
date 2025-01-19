@@ -7,7 +7,7 @@ const REDIS_EXPIRATION_TIME = 3500;
 
 const setCategoriesToRedis = async () => {
     const categories = await db.category.findAll();
-    redisClient.set('categories', REDIS_EXPIRATION_TIME, JSON.stringify(categories));
+    redisClient.setEx('categories', REDIS_EXPIRATION_TIME, JSON.stringify(categories));
 };
 
 const createNewCategoryService = async (payload) => {
@@ -42,7 +42,7 @@ const deleteCategoryService = async (categoryId) => {
 
 const getAllCategoriesService = async () => {
     const categories = await db.category.findAll();
-    redisClient.set('categories', REDIS_EXPIRATION_TIME, JSON.stringify(categories));
+    redisClient.setEx('categories', REDIS_EXPIRATION_TIME, JSON.stringify(categories));
 
     return categories;
 };
