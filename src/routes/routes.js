@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.use("/auth", authRoute);
 
-// router.use(authenticateToken);
+router.use(authenticateToken);
 router.use("/categories", categoryRoute);
 router.use("/products", productRoute);
 

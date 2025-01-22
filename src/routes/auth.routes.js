@@ -20,11 +20,11 @@ router.post(
   login
 );
 
-// router.get('/auth/google', googleLogin);
-// router.get(
-//     '/auth/google/callback',
-//     passport.authenticate('google', { failureRedirect: '/login' }),
-//     googleCallback
-// );
+router.get('/auth/google', googleLogin);
+router.get(
+    '/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    googleCallback
+);
 
 module.exports = router;
