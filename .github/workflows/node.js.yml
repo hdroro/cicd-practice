@@ -57,6 +57,8 @@ jobs:
         DB_NAME: ${{ secrets.DB_NAME }}
         DB_PORT: ${{ secrets.DB_PORT }}
         DB_DIALECT: ${{ secrets.DB_DIALECT }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       run: |
         docker run --rm \
           -e REDIS_URL=$REDIS_URL \
@@ -66,6 +68,8 @@ jobs:
           -e DB_NAME=$DB_NAME \
           -e DB_PORT=$DB_PORT \
           -e DB_DIALECT=$DB_DIALECT \
+          -e GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
+          -e GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \
           ${{ secrets.DOCKER_USER }}/cicd-practice:latest npm run migrate
 
     - name: Deploy to Render
