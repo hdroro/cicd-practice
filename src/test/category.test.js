@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('supertest');
-const httpStatus = require('http-status');
 const { createNewCategory } = require('../controllers/category.controller');
+const { createNewCategoryService } = require('../services/category.service');
 
 jest.mock('../services/category.service', () => ({
     createNewCategoryService: jest.fn(),
@@ -17,7 +17,6 @@ describe('Create new category: POST /categories', () => {
         const newCategory = { name: 'Test Category' };
         const mockResponse = { id: 1, name: 'Test Category' };
 
-        const { createNewCategoryService } = require('../services/category.service');
         createNewCategoryService.mockResolvedValue(mockResponse);
 
         const res = await request(app)
@@ -42,7 +41,6 @@ describe('Create new category: POST /categories', () => {
 
     it('should respond with a 400 status code when category name already exists', async () => {
         const newCategory = { name: 'Test Category' };
-        const { createNewCategoryService } = require('../services/category.service');
     
         jest.mock('../services/category.service');
         createNewCategoryService.mockRejectedValue({
@@ -51,7 +49,7 @@ describe('Create new category: POST /categories', () => {
         });
     
         const res = await request(app).post('/categories').send(newCategory);
-    
+
         expect(res.status).toBe(400);
         expect(res.body).toEqual({});
     });
