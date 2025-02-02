@@ -7,7 +7,7 @@ module.exports = {
       type: Sequelize.STRING,
     });
 
-    await queryInterface.addColumn('users', 'providerId', {
+    await queryInterface.addColumn('users', 'provideId', {
       type: Sequelize.STRING,
     });
 
@@ -19,7 +19,7 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.removeColumn('users', 'tokenLogin');
-    await queryInterface.removeColumn('users', 'providerId');
+    await queryInterface.removeColumn('users', 'provideId');
     await queryInterface.changeColumn('users', 'password', {
       type: Sequelize.STRING,
       allowNull: true,
